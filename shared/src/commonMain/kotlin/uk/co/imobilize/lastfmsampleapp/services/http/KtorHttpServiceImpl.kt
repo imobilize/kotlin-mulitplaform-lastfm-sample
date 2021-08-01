@@ -2,6 +2,7 @@ package uk.co.imobilize.lastfmsampleapp.services.http
 
 import io.ktor.client.*
 import io.ktor.client.call.*
+import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -10,13 +11,14 @@ class KtorHttpServiceImpl(private val client: HttpClient): HttpService {
 
     override fun jsonRequestBuilder(): JSONRequestBuilder {
 
-        val builder = KtorJSONRequestBuilder(client)
+//        val builder = KtorJSONRequestBuilder(client)
+        val builder = FakeRequestBuilder()
 
         builder.headers {
-            it.apply {
-                append("Content-Type", "application/json")
-                append("Accept-Language", "en-GB")
-            }
+//            it.apply {
+//                append("Content-Type", "application/json")
+//                append("Accept-Language", "en-GB")
+//            }
         }
 
         return builder
@@ -69,12 +71,10 @@ class KtorJSONRequestBuilder(private val client: HttpClient): JSONRequestBuilder
         try {
             val response: HttpResponse = when (method) {
                 HttpMethod.Post -> {
-                    val response: HttpResponse = postRequest()
-                    response
+                    postRequest()
                 }
                 else -> {
-                    val response: HttpResponse = getRequest()
-                    response
+                    getRequest()
                 }
             }
 
@@ -89,13 +89,13 @@ class KtorJSONRequestBuilder(private val client: HttpClient): JSONRequestBuilder
         }
     }
 
-    private suspend inline fun <reified T> getRequest(): T = client.get(requestURL) {
+    private suspend fun getRequest() = client.get<HttpResponse>(requestURL) {
 
         addHeaders()
     }
 
 
-    private suspend inline fun <reified T> postRequest(): T = client.post<T>(requestURL) {
+    private suspend fun postRequest() = client.post<HttpResponse>(requestURL) {
         if (requestBody != null) {
             body = requestBody as Any
         }

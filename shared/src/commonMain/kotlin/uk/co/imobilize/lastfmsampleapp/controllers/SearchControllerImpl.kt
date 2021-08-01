@@ -2,6 +2,7 @@ package uk.co.imobilize.lastfmsampleapp.controllers
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -25,30 +26,32 @@ class SearchControllerImpl: SearchController, KoinComponent {
 
             stateFlow.collect { state ->
 
-                when (state) {
-                    is SearchRepositoryState.Loading -> {
-                        delegate?.stateUpdated(SearchControllerState.Loading)
-                    }
-                    is SearchRepositoryState.Failed -> {
-                        delegate?.stateUpdated(SearchControllerState.Failed(state.message))
-                    }
-                    is SearchRepositoryState.Success -> {
+                MainScope().async {
 
-                        val artists = state.searchResults["artists"] as? List<Map<String, Any>>
+                    when (state) {
+                        is SearchRepositoryState.Loading -> {
+                            delegate?.stateUpdated(SearchControllerState.Loading)
+                        }
+                        is SearchRepositoryState.Failed -> {
+                            delegate?.stateUpdated(SearchControllerState.Failed(state.message))
+                        }
+                        is SearchRepositoryState.Success -> {
 
-                        val artistList = artists?.mapNotNull {
+                            val artists = state.searchResults["artists"] as? List<Map<String, Any>>
 
-                            val name = it["name"] as? String ?: "Unknown"
-                            val thumbnail = it["image_small"] as? String ?: ""
-                            val id = it["mbid"] as? String ?: return@mapNotNull null
+                            val artistList = artists?.mapNotNull {
 
-                            Artist(id, name, thumbnail)
-                        } ?: emptyList()
+                                val name = it["name"] as? String ?: "Unknown"
+                                val thumbnail = it["image_small"] as? String ?: ""
+                                val id = it["mbid"] as? String ?: return@mapNotNull null
 
-                        delegate?.stateUpdated(SearchControllerState.ShowArtists(artistList))
+                                Artist(id, name, thumbnail)
+                            } ?: emptyList()
+
+                            delegate?.stateUpdated(SearchControllerState.ShowArtists(artistList))
+                        }
                     }
                 }
-
             }
         }
     }

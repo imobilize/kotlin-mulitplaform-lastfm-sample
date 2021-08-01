@@ -7,7 +7,7 @@ class SearchAPIImpl(
     private val requestBuilder: JSONRequestBuilder,
     private val parser: SearchAPIParser,
     private val logger: ConsoleLogger,
-    private val apiKey: String = "",
+    private val apiKey: String = "444605b326fd651fa0391e5bd89f0280",
     private val baseUrl: String = "https://ws.audioscrobbler.com/2.0"
 ) : SearchAPI {
 

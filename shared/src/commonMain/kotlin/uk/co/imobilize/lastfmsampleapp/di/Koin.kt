@@ -30,7 +30,8 @@ fun initKoin(enableNetworkLogs: Boolean = false, appDeclaration: KoinAppDeclarat
 
         modules(
             commonModule(enableNetworkLogs = enableNetworkLogs),
-        )
+            platformModule()
+            )
     }
 
 
@@ -57,13 +58,10 @@ val JsonBuilder = Json {
 }
 
 fun createHttpClient(json: Json, enableNetworkLogs: Boolean) = HttpClient {
-    install(JsonFeature) {
-        serializer = KotlinxSerializer(json)
-    }
     if (enableNetworkLogs) {
         install(Logging) {
             logger = Logger.DEFAULT
-            level = LogLevel.INFO
+            level = LogLevel.ALL
         }
     }
 }

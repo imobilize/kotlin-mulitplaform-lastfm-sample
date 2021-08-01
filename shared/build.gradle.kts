@@ -44,6 +44,7 @@ kotlin {
                 implementation(Ktor.clientJson)
                 implementation(Ktor.clientLogging)
                 implementation(Ktor.clientSerialization)
+                implementation(Ktor.clientCio)
 
                 // Kotlinx Serialization
                 implementation(Serialization.json)
@@ -63,7 +64,11 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(Ktor.clientAndroid)
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
