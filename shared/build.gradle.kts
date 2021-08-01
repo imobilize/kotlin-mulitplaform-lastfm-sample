@@ -31,6 +31,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+
+                implementation("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}")
+
                 // Coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}") {
                     isForce = true
@@ -74,7 +77,8 @@ kotlin {
                 implementation("junit:junit:${Versions.junit}")
 
             }
-        }    }
+        }
+    }
 }
 
 android {

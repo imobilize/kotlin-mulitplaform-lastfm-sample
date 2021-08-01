@@ -71,31 +71,12 @@ class SearchAPIImplTest {
     @Test
     fun searchArtistValidResponseContainsArtists()  = runTest {
 
-        val jsonString = """
-            {
-            	"results": {
-            		"artistmatches": {
-            			"artist": [{
-            					"name": "Cher",
-                                "image_small": "http://userserve-ak.last.fm/serve/50/342437.jpg",
-                                "image": "http://userserve-ak.last.fm/serve/160/342437.jpg",
-                                "mbid": "bfcc6d75-a6a5-4bc6-8282-47aec8531818",
-            					"url": "www.last.fm/artist/cher"
-            				},
-            				{
-            					"name": "Ed Sheeran",
-                                "image_small": "http://userserve-ak.last.fm/serve/50/342438.jpg",
-                                "image": "http://userserve-ak.last.fm/serve/160/342438.jpg",
-                                "mbid": "bfcc6d75-a6a5-4bc6-8282-47aec8531819",
-            					"url": "www.last.fm/artist/ed-sheran"
-            				}
-            			]
-            		}
-            	}
-            }
-        """.trimIndent()
+        val artistList = listOf(mapOf("name" to "Cher"), mapOf("name" to "Ed Sheeran"))
+        val responseMap = mapOf("artists" to artistList)
 
-        mockRequestBuilder.valueToReturn = JsonResponse(200, jsonString)
+        mockRequestBuilder.valueToReturn = JsonResponse(200)
+
+        mockParser.mapToReturn = responseMap
 
         val response = searchAPI.searchArtist("Ed Sheeran")
 
