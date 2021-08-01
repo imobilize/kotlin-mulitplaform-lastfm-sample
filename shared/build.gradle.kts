@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
+    id("kotlinx-serialization")
     id("com.android.library")
 }
 
@@ -28,7 +29,31 @@ kotlin {
     }
     
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                // Coroutines
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}") {
+                    isForce = true
+                }
+
+                // Ktor http client
+                implementation(Ktor.clientCore)
+                implementation(Ktor.clientJson)
+                implementation(Ktor.clientLogging)
+                implementation(Ktor.clientSerialization)
+
+                // Kotlinx Serialization
+                implementation(Serialization.json)
+
+                // koin dependency injection
+                api(Koin.core)
+                api(Koin.test)
+
+                // kermit logging
+                api(Deps.kermit)
+            }
+
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
