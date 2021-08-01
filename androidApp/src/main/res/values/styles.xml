@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="SearchView" parent="Widget.AppCompat.SearchView">
+        <!-- Close button icon -->
+        <item name="closeIcon">@drawable/ic_close</item>
+        <!-- Search button icon -->
+        <item name="searchIcon">@drawable/ic_search</item>
+    </style>
+
+</resources>
