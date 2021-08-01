@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="search">Search For Artist</string>
+    <string name="placeholder_sentence">Artist Name</string>
+    <string name="artistdetails_type">URL</string>
+    <string name="artistdetails_size">Listeners</string>
+    <string name="artistdetails_id">ID</string>
 </resources>

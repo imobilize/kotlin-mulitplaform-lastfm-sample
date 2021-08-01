@@ -8,8 +8,11 @@ import com.squareup.picasso.Picasso
 import uk.co.imobilize.lastfmsampleapp.android.databinding.LayoutArtistListItemBinding
 import uk.co.imobilize.lastfmsampleapp.models.Artist
 
+interface ArtistClickListener {
+    fun onArtistClick(artist: Artist)
+}
 
-class ArtistListAdapter() : RecyclerView.Adapter<ArtistListAdapter.UsersListViewHolder>() {
+class ArtistListAdapter(val artistListClickListener: ArtistClickListener) : RecyclerView.Adapter<ArtistListAdapter.UsersListViewHolder>() {
 
     var artistList: List<Artist> = emptyList()
         set(value) {
@@ -33,7 +36,12 @@ class ArtistListAdapter() : RecyclerView.Adapter<ArtistListAdapter.UsersListView
                 binding.textName.text = name
 
                 if(thumbnailUrl.isNotEmpty()) {
-                    Picasso.get().load(thumbnailUrl).into(itemView as ImageView)
+                    Picasso.get().load(thumbnailUrl).into(binding.imageUser as ImageView)
+                }
+
+                binding.root.setOnClickListener {
+
+                    artistListClickListener.onArtistClick(this)
                 }
             }
         }

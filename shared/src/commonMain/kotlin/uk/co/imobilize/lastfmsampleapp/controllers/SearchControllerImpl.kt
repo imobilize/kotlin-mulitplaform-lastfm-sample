@@ -42,10 +42,13 @@ class SearchControllerImpl: SearchController, KoinComponent {
                             val artistList = artists?.mapNotNull {
 
                                 val name = it["name"] as? String ?: "Unknown"
-                                val thumbnail = it["image_small"] as? String ?: ""
+                                val thumbnail = it["thumbnailUrl"] as? String ?: ""
                                 val id = it["mbid"] as? String ?: return@mapNotNull null
+                                val url = it["url"] as? String ?: ""
+                                val image = it["imageUrl"] as? String ?: ""
+                                val listeners = it["listners"] as? String ?: "Unknown"
 
-                                Artist(id, name, thumbnail)
+                                Artist(id, name, thumbnail, image, url, listeners)
                             } ?: emptyList()
 
                             delegate?.stateUpdated(SearchControllerState.ShowArtists(artistList))

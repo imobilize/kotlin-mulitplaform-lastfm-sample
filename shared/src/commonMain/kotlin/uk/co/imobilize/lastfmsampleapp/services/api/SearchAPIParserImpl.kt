@@ -17,6 +17,18 @@ class SearchAPIParserImpl: SearchAPIParser {
 
         val artistList = artistMatches?.get("artist") as? List<Map<String, Any>> ?: emptyList()
 
-        return mapOf("artists" to artistList)
+        val artists = artistList.map {
+
+            val updatedMap = it.toMutableMap()
+            val imageArray = updatedMap["image"] as? List<Map<String, String>>
+
+            val smallImageMap = imageArray?.firstOrNull { it["size"] == "small" }
+            val largeImageMap = imageArray?.firstOrNull { it["size"] == "large" }
+
+            updatedMap["thumbnailUrl"] = smallImageMap?.get("#text") ?: ""
+            updatedMap["imageUrl"] = largeImageMap?.get("#text") ?: ""
+            updatedMap
+        }
+        return mapOf("artists" to artists)
     }
 }

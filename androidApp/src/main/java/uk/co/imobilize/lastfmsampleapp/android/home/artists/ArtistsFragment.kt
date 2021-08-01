@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.core.component.KoinComponent
 import uk.co.imobilize.lastfmsampleapp.android.R
 import uk.co.imobilize.lastfmsampleapp.android.databinding.FragmentArtistsBinding
+import uk.co.imobilize.lastfmsampleapp.android.show
 import uk.co.imobilize.lastfmsampleapp.models.Artist
 
 
@@ -27,7 +28,7 @@ class ArtistsFragment(val artists: List<Artist>): Fragment(R.layout.fragment_art
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ArtistListAdapter()
+        adapter = ArtistListAdapter(artistClickListener)
         adapter.artistList = artists
 
         val layoutManager = LinearLayoutManager(binding!!.root.context)
@@ -37,5 +38,15 @@ class ArtistsFragment(val artists: List<Artist>): Fragment(R.layout.fragment_art
         binding?.recyclerUserView?.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
         )
+    }
+
+
+    val artistClickListener = object: ArtistClickListener {
+
+        override fun onArtistClick(artist: Artist) {
+
+            val artistDetailFragment = ArtistDetailFragment(artist)
+            artistDetailFragment.show(parentFragmentManager, true)
+        }
     }
 }

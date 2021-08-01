@@ -57,7 +57,8 @@ class SearchControllerImplTest : EventsControllerDelegate, KoinTest {
 
         searchController.coroutineScope = this
 
-        val artistList = listOf(mapOf("name" to "Cher", "mbid" to "1234"), mapOf("name" to "Ed Sheeran", "mbid" to "4321"))
+        val artist1 = mapOf("name" to "Cher", "mbid" to "1234", "thumbnailUrl" to "http://some.thumb.nail", "listeners" to "1")
+        val artistList = listOf(artist1, mapOf("name" to "Ed Sheeran", "mbid" to "4321"))
         val responseMap = mapOf("artists" to artistList)
 
         mockSearchRepository.stateToEmit = SearchRepositoryState.Success(responseMap)
@@ -71,7 +72,13 @@ class SearchControllerImplTest : EventsControllerDelegate, KoinTest {
         assertTrue(correctState)
 
         state as SearchControllerState.ShowArtists
-        assertEquals(state.artists.first().name, "Cher")
+
+        state.artists.first().apply {
+
+            assertEquals("Cher", name)
+            assertEquals("http://some.thumb.nail", thumbnailUrl)
+            assertEquals("1", listeners)
+        }
     }
 
     override fun stateUpdated(updatedState: SearchControllerState) {
