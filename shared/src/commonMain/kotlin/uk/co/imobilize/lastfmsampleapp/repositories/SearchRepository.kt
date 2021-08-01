@@ -10,7 +10,7 @@ sealed class SearchRepositoryState {
 
 interface SearchRepository {
 
-    fun searchArtist(artistName: String): Flow<SearchRepositoryState>
-    fun searchAlbum(artistName: String): Flow<SearchRepositoryState>
-    fun searchATrack(artistName: String): Flow<SearchRepositoryState>
+    suspend fun searchArtist(artistName: String): Flow<SearchRepositoryState>
+    suspend fun searchAlbum(artistName: String): Flow<SearchRepositoryState>
+    suspend fun searchATrack(artistName: String): Flow<SearchRepositoryState>
 }

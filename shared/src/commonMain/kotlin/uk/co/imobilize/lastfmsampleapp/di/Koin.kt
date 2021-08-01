@@ -9,6 +9,13 @@ import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
+import uk.co.imobilize.lastfmsampleapp.controllers.SearchController
+import uk.co.imobilize.lastfmsampleapp.controllers.SearchControllerImpl
+import uk.co.imobilize.lastfmsampleapp.repositories.SearchRepository
+import uk.co.imobilize.lastfmsampleapp.repositories.SearchRepositoryImpl
+import uk.co.imobilize.lastfmsampleapp.services.api.SearchAPI
+import uk.co.imobilize.lastfmsampleapp.services.api.SearchAPIImpl
+import uk.co.imobilize.lastfmsampleapp.services.api.SearchAPIParserImpl
 import uk.co.imobilize.lastfmsampleapp.services.http.KtorHttpServiceImpl
 import uk.co.imobilize.lastfmsampleapp.utils.ConsoleLogger
 import uk.co.imobilize.lastfmsampleapp.utils.KermitConsoleLogger
@@ -35,6 +42,11 @@ fun commonModule(enableNetworkLogs: Boolean) = module {
     single {
         KtorHttpServiceImpl(get()).jsonRequestBuilder()
     }
+
+    single<SearchAPI> { SearchAPIImpl(get(), SearchAPIParserImpl(), get()) }
+    single<SearchRepository> { SearchRepositoryImpl(get(), get()) }
+
+    factory<SearchController> { SearchControllerImpl() }
 }
 
 @ThreadLocal

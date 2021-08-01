@@ -9,7 +9,7 @@ class SearchRepositoryImpl(
     private val searchAPI: SearchAPI,
     private val logger: ConsoleLogger): SearchRepository {
 
-    override fun searchArtist(artistName: String) = flow {
+    override suspend fun searchArtist(artistName: String) = flow {
 
         logger.debug("Fetching artist with name: $artistName from search API")
 
@@ -24,11 +24,11 @@ class SearchRepositoryImpl(
         }
     }
 
-    override fun searchAlbum(artistName: String): Flow<SearchRepositoryState> {
+    override suspend fun searchAlbum(artistName: String): Flow<SearchRepositoryState> {
         TODO("Not yet implemented")
     }
 
-    override fun searchATrack(artistName: String): Flow<SearchRepositoryState> {
+    override suspend fun searchATrack(artistName: String): Flow<SearchRepositoryState> {
         TODO("Not yet implemented")
     }
 }
