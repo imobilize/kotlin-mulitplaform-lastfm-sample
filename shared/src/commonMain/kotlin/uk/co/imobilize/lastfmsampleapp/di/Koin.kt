@@ -35,7 +35,6 @@ fun commonModule(enableNetworkLogs: Boolean) = module {
     single {
         KtorHttpServiceImpl(get()).jsonRequestBuilder()
     }
-
 }
 
 @ThreadLocal

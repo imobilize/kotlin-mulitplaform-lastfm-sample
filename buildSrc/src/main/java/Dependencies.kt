@@ -7,8 +7,7 @@ object Versions {
     const val koin = "3.1.0"
     const val kermit = "0.1.9"
     const val slf4j = "1.7.30"
-
-    const val junit = "4.13"
+    const val junit = "4.13.2"
     const val testRunner = "1.3.0"
 }
 
